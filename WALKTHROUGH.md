@@ -9,8 +9,6 @@ In Stage 1, we will deploy the "DMP Consulting" cloud environment. To simulate a
 | **Azure Services** | Resource Groups, Virtual Network (VNet), Network Security Groups (NSGs), Storage Accounts, Azure Key Vault. |
 | **NIST SP 800-53 Controls** | **PM-5** – System Inventory<br>**PL-8** – Security and Privacy Architectures |
 
-### Step-by-Step Implementation Guide
-
 #### Step 1: Construct the Portfolio Repository
 Create a new public repository on GitHub named azure-rmf-security-assessment. Clone it to your local machine and create the following exact folder structure to mimic a professional compliance engagement:
 
@@ -30,6 +28,34 @@ Save the following code as deploy_vuln_env.sh inside your scripts/ folder, modif
 Create a file named asset_inventory.md inside your docs/ folder. This fulfills NIST control PM-5. Use this Markdown table to document what we just built:
 
 #### Verify Deployment: 
-Log into the Azure Portal. Navigate to Resource Groups and open rg-securegov-prod. Ensure all four resources (VNet, NSG, Storage, Key Vault) are present.
+Log into the Azure Portal. Navigate to Resource Groups and open rg-dmpgov-prod. Ensure all four resources (VNet, NSG, Storage, Key Vault) are present.
 
 ## Stage 2: Assessment Planning & Scoping
+Objectives: Define the system boundary, establish Rules of Engagement (RoE), and draft the Security Assessment Plan (SAP).
+
+Step 1: Define the System Boundary
+In federal security, the "authorization boundary" dictates exactly what is and isn't your problem. For SecureGov Solutions, our boundary includes the Azure Resource Group (rg-securegov-prod) and everything inside it. If an enterprise Active Directory sits outside this Resource Group, it is out of scope for this specific assessment (treated as an inherited control).
+
+Step 2: Draft the Security Assessment Plan (SAP)
+Create a file named assessment_plan.md in your docs/ folder. This document outlines how you will conduct the assessment. Copy and paste the following baseline into the file:
+
+```
+# Security Assessment Plan (SAP)
+**System Name:** SecureGov Internal Business App
+**Assessor:** [Your Name/Title]
+**Date:** [Current Date]
+
+## 1. Assessment Scope
+This assessment covers the Azure infrastructure components deployed within the `rg-securegov-prod` resource group. 
+- **In-Scope:** Virtual Network, Network Security Group, Storage Account, Key Vault.
+- **Out-of-Scope:** Underlying Azure hypervisor infrastructure (Microsoft's responsibility), on-premises networks.
+
+## 2. Assessment Methodology
+The assessment will follow NIST SP 800-53 Rev. 5 guidelines and utilize the following methods:
+- **Examine:** Reviewing Azure configurations, IAM roles, and diagnostic settings.
+- **Interview:** (Simulated) Discussions with cloud engineers regarding business justifications for open ports.
+- **Test:** Utilizing Microsoft Defender for Cloud and Azure Policy to validate compliance states.
+
+## 3. Threat Profile
+The system is evaluated against threats targeting cloud control planes, including unauthorized data exposure, lateral movement via overly permissive network rules, and unauthorized access to secrets.
+```
