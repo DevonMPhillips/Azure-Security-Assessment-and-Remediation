@@ -1,5 +1,5 @@
 #!/bin/bash
-# SecureGov Solutions - Vulnerable Environment Deployment Script
+# DMP Consulting - Vulnerable Environment Deployment Script
 
 # Variables (Change the suffix to make your storage account name unique)
 SUFFIX="dmpgov"
