@@ -1,9 +1,0 @@
-# NIST SP 800-53 Rev. 5 Control Mapping Matrix
-**System Name:** SecureGov Internal Business App
-
-| Finding ID | Azure Resource | Technical Misconfiguration | NIST Control | Control Name | Security Objective |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| VULN-001 | nsg-securegov-frontend | Inbound rules allow TCP/22 and TCP/3389 from `*` (Any). | SC-7 | Boundary Protection | Limit access to external network connections and restrict unauthorized traffic. |
-| VULN-002 | stsecuregov[suffix] | "Allow Blob public access" is enabled. | AC-3 | Access Enforcement | Enforce approved authorizations for logical access to information and system resources. |
-| VULN-003 | stsecuregov[suffix] | "Secure transfer required" is disabled. | SC-8 | Transmission Confidentiality | Protect the confidentiality and integrity of transmitted information. |
-| VULN-004 | kv-securegov-[suffix] | Public network access allowed; Purge protection disabled. | SC-12 | Cryptographic Key Establishment | Establish and manage cryptographic keys securely. |
