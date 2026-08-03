@@ -29,4 +29,5 @@ Save the following code as deploy_vuln_env.sh inside your scripts/ folder, modif
 #### Step 3: Draft the Asset Inventory
 Create a file named asset_inventory.md inside your docs/ folder. This fulfills NIST control PM-5. Use this Markdown table to document what we just built:
 
-#### Verify Deployment: Log into the Azure Portal. Navigate to Resource Groups and open rg-securegov-prod. Ensure all four resources (VNet, NSG, Storage, Key Vault) are present.
+#### Verify Deployment: 
+Log into the Azure Portal. Navigate to Resource Groups and open rg-securegov-prod. Ensure all four resources (VNet, NSG, Storage, Key Vault) are present.
