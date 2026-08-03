@@ -20,7 +20,7 @@ DMP Consulting, a fictional federal contractor, is migrating an internal busines
 
 - **Validation & Closure**: Re-assess the environment to prove the remediations were successful and establish a continuous monitoring strategy.
 
-##Azure Services & Security Tools Used
+## Azure Services & Security Tools Used
 
 ## Project Roadmap (Major Phases)
 
