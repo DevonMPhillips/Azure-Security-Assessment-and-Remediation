@@ -34,7 +34,7 @@ Log into the Azure Portal. Navigate to Resource Groups and open rg-dmpgov-prod. 
 Objectives: Define the system boundary, establish Rules of Engagement (RoE), and draft the Security Assessment Plan (SAP).
 
 Step 1: Define the System Boundary
-In federal security, the "authorization boundary" dictates exactly what is and isn't your problem. For SecureGov Solutions, our boundary includes the Azure Resource Group (rg-securegov-prod) and everything inside it. If an enterprise Active Directory sits outside this Resource Group, it is out of scope for this specific assessment (treated as an inherited control).
+In federal security, the "authorization boundary" dictates exactly what is and isn't your problem. For DMP Conulting, our boundary includes the Azure Resource Group (rg-dmpgov-prod) and everything inside it. If an enterprise Active Directory sits outside this Resource Group, it is out of scope for this specific assessment (treated as an inherited control).
 
 Step 2: Draft the Security Assessment Plan (SAP)
 Create a file named assessment_plan.md in your docs/ folder. This document outlines how you will conduct the assessment. Copy and paste the following baseline into the file:
@@ -59,3 +59,105 @@ The assessment will follow NIST SP 800-53 Rev. 5 guidelines and utilize the foll
 ## 3. Threat Profile
 The system is evaluated against threats targeting cloud control planes, including unauthorized data exposure, lateral movement via overly permissive network rules, and unauthorized access to secrets.
 ```
+
+### Step 3: Establish the Rules of Engagement (RoE)
+Create a file named rules_of_engagement.md in your docs/ folder. The RoE defines what you are allowed to do.
+
+```
+# Rules of Engagement (RoE)
+**Target Environment:** `rg-dmpgov-prod` (Azure East US)
+
+## 1. Authorized Activities
+- Read-only configuration review via Azure Portal and CLI.
+- Execution of passive compliance scans via Microsoft Defender for Cloud.
+- Review of Azure Activity Logs.
+
+## 2. Prohibited Activities
+- NO Denial of Service (DoS) testing.
+- NO creation, deletion, or modification of resources during the assessment phase.
+- NO automated vulnerability scanning against production endpoints without prior written approval.
+- NO extraction of sensitive data (PII/PHI) from the Storage Account.
+
+## 3. Incident Response
+If a critical vulnerability is discovered that poses an immediate threat to the organization, the assessor will halt activities and immediately notify the System Owner and Incident Response team.
+```
+## Stage 3: Security Assessment Execution
+Objectives:	Execute a vulnerability assessment of the Azure environment using manual configuration reviews and native CSPM tools to identify security gaps.
+
+#### Step 1: Manual Network Architecture Review (NSGs)
+As an assessor, your first stop is often the network boundary.
+
+Navigate to the Azure Portal and open your resource group rg-dmpgov-prod.
+
+Select the Network Security Group: nsg-dmpgov-frontend.
+
+Select Inbound security rules on the left menu.
+
+The Finding: You will see two critical misconfigurations: Allow-SSH-Any (Port 22) and Allow-RDP-Any (Port 3389) are open to the entire internet (*). In an enterprise architecture, management ports should be restricted to specific VPN gateways, Azure Bastion, or dedicated management subnets—never the public internet.
+
+<br>
+
+<img width="1387" height="852" alt="image" src="https://github.com/user-attachments/assets/6ea02e94-d146-482d-bbcc-0ec6ec4321c5" />
+
+<br>
+
+#### Step 2: Evaluate Storage Account Security Posture
+Data exfiltration often happens through misconfigured storage.
+
+Go back to rg-dmpgov-prod and select your Storage Account (stdmpgov[suffix]).
+
+Under the Settings menu on the left, select Configuration.
+
+The Finding:
+
+Notice that Allow Blob anonymous access is set to Enabled. This means anyone with a URL could potentially read sensitive federal data.
+
+Notice that Secure transfer required is Disabled. This means data can be transmitted over unencrypted HTTP, violating data-in-transit protections.
+
+<br>
+
+<img width="955" height="862" alt="image" src="https://github.com/user-attachments/assets/99f50f86-b52d-4b87-be65-e3cf0154779a" />
+
+<br>
+
+#### Step 3: Assess the Key Vault
+Key Vaults hold the "keys to the kingdom."
+
+Open your Key Vault (kv-dmpgov-dmpconsulting).
+
+Under Settings, select Networking.
+
+The Finding: Public network access is set to Allow public access from all networks.
+
+<br>
+
+<img width="956" height="616" alt="image" src="https://github.com/user-attachments/assets/28ace75f-1777-45ea-92ea-999aef2f3844" />
+
+<br>
+
+Go to Properties on the left menu.
+
+The Finding: Purge protection is Disabled. If an attacker compromises an account, they could permanently delete secrets, causing a severe availability impact.
+
+<br>
+
+<img width="952" height="612" alt="image" src="https://github.com/user-attachments/assets/f4fe5793-29ef-4335-b34a-58d77f20fd45" />
+
+<br>
+
+#### Step 4: Automated CSPM Scan via Microsoft Defender for Cloud
+While manual review is crucial, federal assessors heavily rely on automated continuous monitoring.
+
+In the Azure Portal search bar, type Defender for Cloud and open it.
+
+On the left menu, select Recommendations.
+
+Filter by your specific subscription or resource group.
+
+The Finding: Defender will flag the resources we just reviewed. You will likely see recommendations such as "Management ports of virtual machines should be protected with just-in-time network access" or "Secure transfer to storage accounts should be enabled."
+
+## Stage 4: Documentation & Risk Analysis
+Map identified vulnerabilities to NIST SP 800-53 Rev. 5 controls, calculate risk levels, and generate a Risk Register and Security Assessment Report (SAR). The SAR and Risk Register are the primary artifacts used by the Authorizing Official to make a risk-based decision on whether to grant an ATO.
+
+Step 1: Build the NIST 800-53 Control Mapping Matrix
+Create a file named nist_control_mapping.md in your evidence/ folder. This matrix proves that you understand how specific Azure configurations tie back to federal regulations.
