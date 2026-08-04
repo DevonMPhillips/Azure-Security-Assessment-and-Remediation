@@ -207,3 +207,24 @@ Create a file named poam.md inside your reports/ folder. This document will serv
 | **POAM-003** | (VULN-003) Storage account does not require secure transfer (HTTPS). | MODERATE | [Date + 30 Days] | 1. Navigate to Storage Account Configuration.<br>2. Set "Secure transfer required" to Enabled.<br>3. Save configuration. | Open |
 | **POAM-004** | (VULN-004) Key Vault exposed to public networks and lacks purge protection. | HIGH | [Date + 14 Days] | 1. Enable Purge Protection in Key Vault Properties.<br>2. Disable public network access.<br>3. Configure Private Endpoint (Future Phase). | Open |
 ```
+Step 2: Draft the Remediation Tracking Log
+While the POA&M goes to leadership and auditors, assessors and engineers often use a more granular log to track the day-to-day back-and-forth.
+
+Create a file named remediation_tracking_log.md in your evidence/ folder.
+
+```
+# Remediation Tracking Log
+**System Name:** DMP COnsulting Internal Business App
+
+*Use this log to track notes, configuration changes, and validation evidence as POAM items are worked.*
+
+### POAM-001: NSG Port Exposure
+*   **Assigned To:** Cloud Engineering Team
+*   **Notes:** Engineering team notified. Waiting on change request approval to modify `nsg-securegov-frontend`.
+*   **Validation Method:** Assessor will visually verify NSG rules in the Azure Portal and run a test connection.
+
+### POAM-002 & 003: Storage Account Security
+*   **Assigned To:** Cloud Engineering Team
+*   **Notes:** Consolidating these two fixes into a single maintenance window.
+*   **Validation Method:** Assessor will verify Configuration blade in Azure Portal.
+```
