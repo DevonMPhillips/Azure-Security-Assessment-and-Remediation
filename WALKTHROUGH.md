@@ -159,5 +159,51 @@ The Finding: Defender will flag the resources we just reviewed. You will likely 
 ## Stage 4: Documentation & Risk Analysis
 Map identified vulnerabilities to NIST SP 800-53 Rev. 5 controls, calculate risk levels, and generate a Risk Register and Security Assessment Report (SAR). The SAR and Risk Register are the primary artifacts used by the Authorizing Official to make a risk-based decision on whether to grant an ATO.
 
-Step 1: Build the NIST 800-53 Control Mapping Matrix
+### Step 1: Build the NIST 800-53 Control Mapping Matrix
 Create a file named nist_control_mapping.md in your evidence/ folder. This matrix proves that you understand how specific Azure configurations tie back to federal regulations.
+
+```
+# NIST SP 800-53 Rev. 5 Control Mapping Matrix
+**System Name:** SecureGov Internal Business App
+
+| Finding ID | Azure Resource | Technical Misconfiguration | NIST Control | Control Name | Security Objective |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| VULN-001 | nsg-securegov-frontend | Inbound rules allow TCP/22 and TCP/3389 from `*` (Any). | SC-7 | Boundary Protection | Limit access to external network connections and restrict unauthorized traffic. |
+| VULN-002 | stsecuregov[suffix] | "Allow Blob public access" is enabled. | AC-3 | Access Enforcement | Enforce approved authorizations for logical access to information and system resources. |
+| VULN-003 | stsecuregov[suffix] | "Secure transfer required" is disabled. | SC-8 | Transmission Confidentiality | Protect the confidentiality and integrity of transmitted information. |
+| VULN-004 | kv-securegov-[suffix] | Public network access allowed; Purge protection disabled. | SC-12 | Cryptographic Key Establishment | Establish and manage cryptographic keys securely. |
+```
+
+### Step 2: Develop the Risk Register
+Create a file named risk_register.md in your reports/ folder. The Risk Register translates the technical flaws into business context. We use a standard matrix (Likelihood × Impact) to determine the Risk Level.
+
+```
+# Risk Register
+**Date:** [Current Date]
+
+| Finding ID | Vulnerability Description | Business Impact | Likelihood | Impact | Overall Risk Level |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| VULN-001 | Management ports exposed to public internet. | Enables brute-force attacks and potential ransomware deployment, halting business operations. | High | High | **CRITICAL** |
+| VULN-002 | Storage account allows anonymous public read access. | Potential exposure of sensitive federal data, resulting in loss of public trust and regulatory fines. | Medium | High | **HIGH** |
+| VULN-003 | Storage account allows unencrypted HTTP traffic. | Man-in-the-Middle (MitM) attacks could intercept sensitive data in transit. | Low | Medium | **MODERATE** |
+| VULN-004 | Key Vault exposed to public networks and lacks purge protection. | Compromise of cryptographic keys could lead to total data decryption. Accidental deletion could cause permanent data loss. | Medium | High | **HIGH** |
+```
+
+## Stage 5: Action Planning (POA&M)
+Translate identified risks into a structured Plan of Action and Milestones (POA&M) to guide and track remediation efforts. Federal agencies require a formal POA&M for any system with open vulnerabilities. It provides accountability and a clear timeline for reducing residual risk to an acceptable level.
+
+#### Step 1: Construct the POA&M Document
+Create a file named poam.md inside your reports/ folder. This document will serve as the central ledger for all remediation activities.
+
+# Plan of Action and Milestones (POA&M)
+**System Name:** SecureGov Internal Business App
+**Date:** [Current Date]
+
+```
+| POA&M ID | Weakness Description | Risk Level | Scheduled Completion | Milestones | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **POAM-001** | (VULN-001) NSG allows inbound TCP/22 and TCP/3389 from the public internet. | CRITICAL | [Date + 7 Days] | 1. Delete `Allow-SSH-Any` rule.<br>2. Delete `Allow-RDP-Any` rule.<br>3. Verify traffic is dropped from external sources. | Open |
+| **POAM-002** | (VULN-002) Storage account allows anonymous public read access for blobs. | HIGH | [Date + 14 Days] | 1. Navigate to Storage Account Configuration.<br>2. Set "Allow Blob public access" to Disabled.<br>3. Save configuration. | Open |
+| **POAM-003** | (VULN-003) Storage account does not require secure transfer (HTTPS). | MODERATE | [Date + 30 Days] | 1. Navigate to Storage Account Configuration.<br>2. Set "Secure transfer required" to Enabled.<br>3. Save configuration. | Open |
+| **POAM-004** | (VULN-004) Key Vault exposed to public networks and lacks purge protection. | HIGH | [Date + 14 Days] | 1. Enable Purge Protection in Key Vault Properties.<br>2. Disable public network access.<br>3. Configure Private Endpoint (Future Phase). | Open |
+```
