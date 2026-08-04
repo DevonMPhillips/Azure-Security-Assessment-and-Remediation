@@ -1,14 +1,16 @@
-# Azure-Security-Assessment-and-Remediation
-Azure cloud security assessment project demonstrating vulnerability management, NIST SP 800-53 control validation, POA&amp;M development, and security remediation.
+# Azure Security Assessment with Remediation
+This Azure cloud security assessment project demonstrating vulnerability management, NIST SP 800-53 control validation, POA&amp;M development, and security remediation.
 
 ## Project Objective
 To design, execute, and document a complete cloud vulnerability assessment of a fictional Azure environment. This project will demonstrate a practical Assessment & Authorization (A&A) workflow by identifying security weaknesses, mapping findings to NIST SP 800-53 Rev. 5 controls, documenting risks via a Security Assessment Report (SAR) and POA&M, and validating remediations to support an Authorization to Operate (ATO).
 
 ## Scenario
-DMP Consulting, a fictional federal contractor, is migrating an internal business application to Microsoft Azure. To operate securely and maintain federal compliance, the organization must align with the NIST Risk Management Framework (RMF) (NIST SP 800-37 Rev. 2) and implement security controls from NIST SP 800-53 Rev. 5. I am the Lead Security Specialist assigned to independently assess the environment, document security gaps, and guide the engineering team through remediation before the system can receive its initial ATO
+DMP Consulting is migrating a business application to Microsoft Azure. To operate securely and maintain federal compliance, the organization must align with the NIST Risk Management Framework (NIST SP 800-37 Rev. 2) and implement security controls from NIST SP 800-53 Rev. 5.
+
+For this project, I go through creating a vulnerable environment deployment script, assessing the environment, documenting security gaps, and guiding the through remediation before the system can receive its initial ATO
 
 ## Assessment Workflow
-- **Preparation**: Deploy the intentionally vulnerable Azure infrastructure (using Terraform/CLI for reproducibility).
+- **Preparation**: Deploy the intentionally vulnerable Azure infrastructure (For Future iterations with use Terraform).
 
 - **Discovery & Planning**: Catalog all assets and define the boundaries and methods of the assessment.
 
@@ -21,6 +23,8 @@ DMP Consulting, a fictional federal contractor, is migrating an internal busines
 - **Validation & Closure**: Re-assess the environment to prove the remediations were successful and establish a continuous monitoring strategy.
 
 ## Azure Services & Security Tools Used
+- **Core Infrastructure**	- Virtual Network (VNet), Network Security Groups (NSGs), Storage Accounts, Key Vault, Entra ID (Azure AD), Azure RBAC
+- **Security & Auditing** - Microsoft Defender for Cloud, Azure Policy, Azure Advisor, Azure Monitor, Log Analytics, Azure Activity Logs
 
 ## Project Roadmap (Major Phases)
 
